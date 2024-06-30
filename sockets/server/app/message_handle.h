@@ -3,6 +3,7 @@
 #include <string.h>
 
 #define BUF_SIZE 100
+#define NEW_LINE "\n"
 
 typedef struct {
     char *msg;

@@ -19,5 +19,5 @@ void parseMessage(message *msg,char *sent_message)
         }
     }
     msg->name_to = sent_message + 1;
-    msg->msg = "\n";
+    msg->msg = NEW_LINE;
 }

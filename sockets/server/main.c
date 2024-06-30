@@ -84,7 +84,7 @@ void *handle_clnt(void *args)
     {
         if (len == -1)
             error_handling("read() error");
-
+        
         msg[len] = '\0';
 
         parseMessage(message_obj,msg);

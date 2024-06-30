@@ -32,19 +32,18 @@ void send_msg_for_all(message *msg,int clnt_cnt,clnt *clnt_socks) {
 
 void send_server_responses(message *msg,int clnt_cnt,clnt *clnt_socks) {
     char *message;
-    if (strcmp(msg->msg,"users") == 0) {
+    if (strcmp(msg->msg,"-u\n") == 0) {
         for (int i = 0;i < clnt_cnt;i++) {
             message = clnt_socks[i].name;
             
             write(msg->sock_from,message,strlen(message));
-            write(msg->sock_from,"\n",strlen("\n"));
+            write(msg->sock_from,NEW_LINE,strlen(NEW_LINE));
         }
     }
     else {
-        message = "users:   get all users on the servers\n";
+        message = "-u: get all users on the servers\n";
         write(msg->sock_from,message,strlen(message));
     }
-    free(message);
 }
 
 void send_private_msg(message *msg,int clnt_cnt,clnt *clnt_socks) {
@@ -71,7 +70,7 @@ void send_msg(message *msg,pthread_mutex_t *mutex,int clnt_cnt,clnt *clnt_socks)
     if (strcmp(msg->name_to,"all") == 0) {
         send_msg_for_all(msg,clnt_cnt,clnt_socks);
     }
-    else if (strcmp(msg->name_to,"server") == 0) {
+    else if (strncmp(msg->name_to,"server",strlen("server")) == 0) {
         send_server_responses(msg,clnt_cnt,clnt_socks);
     }
     else {
