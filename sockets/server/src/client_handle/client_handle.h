@@ -2,7 +2,7 @@
 #define CLIENT_HANDLE_H
 
 #include <pthread.h>
-#include "message_handle.h"
+#include "../message_handle/message_handle.h"
 
 #define MAX_NAME 20
 #define MAX_CLNT 25

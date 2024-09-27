@@ -1,3 +1,4 @@
+#include <netinet/in.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -29,7 +30,7 @@ int main(int argc,char *argv[])
     }
     sprintf(name,"%s",argv[3]);
 
-    sock = socket(PF_INET,SOCK_STREAM,0);
+    sock = socket(PF_INET,SOCK_STREAM,SOL_IP);
 
     memset(&serv_addr,0,sizeof(serv_addr));
     serv_addr.sin_addr.s_addr = inet_addr(argv[1]);

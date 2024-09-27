@@ -3,9 +3,9 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <pthread.h>
-#include "app/client_handle.h"
-#include "app/message_handle.h"
-#include "app/server_handle.h"
+#include "src/client_handle/client_handle.h"
+#include "src/message_handle/message_handle.h"
+#include "src/server_handle/server_handle.h"
 
 void *handle_clnt(void *args);
 
