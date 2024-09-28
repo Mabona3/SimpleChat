@@ -19,9 +19,11 @@ build: server client
 
 server: $(SRV_DIR)/main.c
 	echo "Making server"
-	$(CC) $< $(SRV_HEADER) -o server/server ${LDFLAGS}
-
+	$(CC) $< $(SRV_HEADER) -o $(SRV_DIR)/server ${LDFLAGS}
+	$(CC) server/test/message_handle/main.c $(SRV_HEADER) -o server/test/message_handle/main $(LDFLAGS)
+ 
 client: $(CLNT_DIR)/main.c
 	echo "Making client"
 	$(CC) $< -o client/client ${LDFLAGS}
+
 
