@@ -2,11 +2,10 @@
 #define CLIENT_HANDLE_H
 
 #include <pthread.h>
-#include "../message_handle/message_handle.h"
+#include "message_handle.h"
 
 #define MAX_NAME 20
 #define MAX_CLNT 25
-
 
 typedef struct {
     int socket;
@@ -14,9 +13,9 @@ typedef struct {
     int name_size;
 } clnt;
 
-
 void send_msg(message *msg,pthread_mutex_t *mutex,int clnt_cnt,clnt *clnt_socks);
 char *get_sender_name(int socket,int clnt_cnt,clnt *clnt_socks);
-void delete_client(int socket,clnt *clnt_sock,int *clnt_cnt,pthread_mutex_t *mutex);
+void delete_client(int socket,clnt *clnt_socks,int *clnt_cnt,pthread_mutex_t *mutex);
+int check_name(char *name,int clnt_cnt,clnt *clnt_socks);
 
 #endif
