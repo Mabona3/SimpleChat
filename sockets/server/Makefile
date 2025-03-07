@@ -6,10 +6,7 @@ MAIN=server
 MAIN_C=main.c
 MAIN_O=main.o
 
-# Collect all the source files
 SOURCES=$(wildcard $(SRC_DIR)/*.c)
-
-# Generate object files from source files
 OBJECTS=$(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SOURCES))
 
 .PHONY: all server clean run
