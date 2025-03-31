@@ -3,7 +3,6 @@
 #include "message_handle.h"
 
 void parseMessage(message *msg,char *sent_message) {
-    // Setting the broadcast messages.
     if (sent_message[0] != '@') {
         msg->name_to = "all";
         msg->msg = sent_message;
