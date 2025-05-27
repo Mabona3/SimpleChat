@@ -4,6 +4,6 @@
 #define MAX_QUEUE 5
 
 void error_handling(char *msg);
-void Setup(char *port,int serv_sock);
+void Setup(char *port, int serv_sock);
 
 #endif // !SERVER_HANDLE

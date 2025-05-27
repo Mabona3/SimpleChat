@@ -25,8 +25,9 @@ server: $(SRV_DIR)/main.c
  
 client: $(CLNT_DIR)/main.c
 	echo "Making client"
-	$(CC) $< -o client/client ${LDFLAGS}
+	make -C $(CLNT_DIR)
 
 clean:
 	make -C $(SRV_DIR) clean
+	make -C $(CLNT_DIR) clean
 

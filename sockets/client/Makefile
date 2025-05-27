@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS=-Wall -pthread -g -pedantic -Iinclude/
 BUILD_DIR=build
 SRC_DIR=src
-MAIN=$(BUILD_DIR)/server
+MAIN=$(BUILD_DIR)/client
 MAIN_C=main.c
 MAIN_O=$(BUILD_DIR)/main.o
 
