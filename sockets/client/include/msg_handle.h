@@ -4,8 +4,8 @@
 #define BUF_SIZE 100
 #define NAME_SIZE 20
 
-char name[NAME_SIZE];
-char msg[BUF_SIZE];
+static char name[NAME_SIZE];
+static char msg[BUF_SIZE];
 
 typedef struct {
   char *msg_from;

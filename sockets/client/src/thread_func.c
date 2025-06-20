@@ -1,5 +1,9 @@
 #include "thread_func.h"
 #include "msg_handle.h"
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
 
 void *send_msg(void *args) {
   int sock = *((int *)args);

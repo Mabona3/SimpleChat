@@ -1,6 +1,7 @@
 #include "client_handle.h"
 #include "message_handle.h"
 #include <stdio.h>
+#include <string.h>
 #include <unistd.h>
 
 char *get_sender_name(int socket, int clnt_cnt, clnt *clnt_socks) {
@@ -91,17 +92,17 @@ int check_name(char *name, int clnt_cnt, clnt *clnt_socks) {
   if (strlen(name) <= 2) {
     return 1;
   } else if (strlen(name) > MAX_NAME) {
-    return 1;
-  } else if (strlen(name) < 3) {
-    return 1;
+    return 2;
   } else if (strcmp(name, "all") == 0) {
-    return 1;
+    return 3;
+  } else if (strcmp(name, "help") == 0) {
+    return 4;
   } else if (strcmp(name, "server") == 0) {
-    return 1;
+    return 5;
   }
   for (int i = 0; i < clnt_cnt; i++) {
     if (strcmp(name, clnt_socks[i].name) == 0) {
-      return 1;
+      return 6;
     }
   }
   return 0;

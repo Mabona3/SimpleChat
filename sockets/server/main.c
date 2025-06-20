@@ -1,30 +1,24 @@
+#include "../common/logger.h"
 #include "client_handle.h"
 #include "message_handle.h"
 #include "server_handle.h"
-#include "sig_handle.h"
 #include <arpa/inet.h>
 #include <pthread.h>
-#include <signal.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 void *handle_clnt(void *args);
 
-static int clnt_cnt = 0;
-static clnt clnt_socks[MAX_CLNT];
-static pthread_mutex_t mutex;
-
 int main(int argc, char *argv[]) {
-  int serv_sock, clnt_sock;
+  int serv_sock, clnt_cnt = 0, clnt_sock;
+  clnt clnt_socks[MAX_CLNT];
+  pthread_mutex_t mutex;
   struct sockaddr_in clnt_addr;
   socklen_t clnt_addr_sz;
 
-  signal(SIGINT, intr_handle);
-
   pthread_t t_id;
   if (argc != 2) {
-    printf("Usage : %s <port>\n", argv[0]);
+    LOG_ERROR("Usage : %s <port>\n", argv[0]);
     exit(1);
   }
   pthread_mutex_init(&mutex, NULL);
@@ -35,6 +29,7 @@ int main(int argc, char *argv[]) {
   Setup(argv[1], serv_sock);
 
   int len;
+  const char *error;
 
   while (1) {
     clnt_addr_sz = sizeof(clnt_addr);
@@ -50,10 +45,31 @@ int main(int argc, char *argv[]) {
       clnt_socks[clnt_cnt].socket = clnt_sock;
 
       len = read(clnt_sock, clnt_socks[clnt_cnt++].name, MAX_NAME);
+      switch (
+          check_name(clnt_socks[clnt_cnt - 1].name, clnt_cnt - 1, clnt_socks)) {
+      case 1:
+        error = "[Server] : name is too long used.";
+      case 2:
+        error = "[Server] : name is too long used.";
+        break;
+      case 3:
+        error = "[Server] : 'all' is not a valid name";
+        break;
+      case 4:
+        error = "[Server] : 'help' is not a valid name";
+        break;
+      case 5:
+        error = "[Server] : 'server' is not a valid name";
+        break;
+      case 6:
+        error = "[Server] : name is already used.";
+        break;
+      default:
+        error = NULL;
+      }
 
-      if (check_name(clnt_socks[clnt_cnt - 1].name, clnt_cnt - 1, clnt_socks) ==
-          1) {
-        write(clnt_sock, "[Server] : Name is already used.", 33);
+      if (error != NULL) {
+        write(clnt_sock, error, strlen(error));
         close(clnt_sock);
         clnt_cnt--;
         pthread_mutex_unlock(&mutex);
@@ -65,7 +81,7 @@ int main(int argc, char *argv[]) {
 
       clnt_socks[clnt_cnt - 1].name[len] = '\0';
       clnt_socks[clnt_cnt - 1].name_size = len;
-      printf("%s joined the chat\n", clnt_socks[clnt_cnt - 1].name);
+      LOG_INFO("%s joined the chat\n", clnt_socks[clnt_cnt - 1].name);
 
       pthread_mutex_unlock(&mutex);
     }
@@ -97,7 +113,7 @@ void *handle_clnt(void *args) {
 
     send_msg(message_obj, &mutex, clnt_cnt, clnt_socks);
   }
-  printf("%s left the chat\n", clnt_sock->name);
+  LOG_INFO("%s left the chat\n", clnt_sock->name);
   delete_client(clnt_sock->socket, clnt_socks, &clnt_cnt, &mutex);
   close(clnt_sock->socket);
   return NULL;

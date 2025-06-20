@@ -1,6 +1,5 @@
 #ifndef MESSAGE_HANDLE_H
 #define MESSAGE_HANDLE_H
-#include <string.h>
 
 #define BUF_SIZE 100
 #define NEW_LINE "\n"
